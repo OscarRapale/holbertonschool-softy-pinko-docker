@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./back-end
+      dockerfile: Dockerfile
+    image: task5-backend
+    ports:
+      - "5252"  # Internal port, no mapping to host
+
+  frontend:
+    build:
+      context: ./front-end
+      dockerfile: Dockerfile
+    image: task5-frontend
+    ports:
+      - "9000"  # Internal port, no mapping to host
+    depends_on:
+      - backend
+
+  proxy:
+    build:
+      context: ./proxy
+      dockerfile: Dockerfile
+    image: task5-proxy
+    ports:
+      - "80:80"
+    depends_on:
+      - frontend
+      - backend

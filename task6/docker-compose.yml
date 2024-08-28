@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  backend1:
+    build:
+      context: ./back-end
+      dockerfile: Dockerfile
+    image: task6-backend1
+    ports:
+      - "5252"  # Internal port only
+
+  backend2:
+    build:
+      context: ./back-end
+      dockerfile: Dockerfile
+    image: task6-backend2
+    ports:
+      - "5253"  # Internal port only
+
+  frontend:
+    build:
+      context: ./front-end
+      dockerfile: Dockerfile
+    image: task6-frontend
+    ports:
+      - "9000"  # Internal port only
+    depends_on:
+      - backend1
+      - backend2
+
+  proxy:
+    build:
+      context: ./proxy
+      dockerfile: Dockerfile
+    image: task6-proxy
+    ports:
+      - "80:80"
+    depends_on:
+      - frontend
+      - backend1
+      - backend2

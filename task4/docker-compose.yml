@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./back-end
+      dockerfile: Dockerfile
+    image: task4-backend
+    ports:
+      - "5252:5252"
+
+  frontend:
+    build:
+      context: ./front-end
+      dockerfile: Dockerfile
+    image: task4-frontend
+    ports:
+      - "9000:9000"
+    depends_on:
+      - backend
